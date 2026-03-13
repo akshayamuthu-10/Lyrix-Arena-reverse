@@ -362,7 +362,7 @@ original.currentTime=0;
 function playReverse(){
 stopAllAudio();
 let reverse=document.getElementById("reverse");
-reverse.src="Q"+question+"_reverse.mp3";
+reverse.src="q"+question+"_reverse.mp3";
 reverse.play();
 startTimer();
 }
@@ -387,7 +387,7 @@ document.body.classList.remove("boost");
 },4000);
 
 let original=document.getElementById("original");
-original.src="Q"+question+"_original.mp3";
+original.src="q"+question+"_original.mp3";
 original.play();
 
 let flash=document.getElementById("flash");
@@ -457,3 +457,4 @@ clearInterval(interval);
 
 </body>
 </html>
+
