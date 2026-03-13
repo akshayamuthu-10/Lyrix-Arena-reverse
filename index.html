@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>LYRIX ARENA</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+text-align:center;
+color:white;
+overflow:hidden;
+background:linear-gradient(270deg,#050505,#1a0033,#001a33,#050505);
+background-size:800% 800%;
+animation:bgMove 20s ease infinite;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* DJ LIGHTS */
+
+.djLights{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
+pointer-events:none;
+}
+
+.laser{
+position:absolute;
+width:4px;
+height:150%;
+background:linear-gradient(to bottom,transparent,#00eaff,transparent);
+opacity:.6;
+animation:laserMove 6s linear infinite;
+}
+
+.laser:nth-child(2){left:20%;animation-delay:1s;background:linear-gradient(to bottom,transparent,#ff2e88,transparent);}
+.laser:nth-child(3){left:40%;animation-delay:2s;background:linear-gradient(to bottom,transparent,#00ff9d,transparent);}
+.laser:nth-child(4){left:60%;animation-delay:3s;background:linear-gradient(to bottom,transparent,#ffaa00,transparent);}
+.laser:nth-child(5){left:80%;animation-delay:4s;background:linear-gradient(to bottom,transparent,#ff2e88,transparent);}
+
+@keyframes laserMove{
+0%{transform:rotate(-30deg) translateY(-200px);}
+50%{transform:rotate(30deg) translateY(200px);}
+100%{transform:rotate(-30deg) translateY(-200px);}
+}
+
+/* FLOATING MUSIC NOTES */
+
+.musicNotes{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+pointer-events:none;
+}
+
+.note{
+position:absolute;
+font-size:34px;
+opacity:.25;
+animation:floatNotes linear infinite;
+}
+
+.note:nth-child(1){left:10%;animation-duration:8s;}
+.note:nth-child(2){left:25%;animation-duration:10s;}
+.note:nth-child(3){left:40%;animation-duration:7s;}
+.note:nth-child(4){left:55%;animation-duration:9s;}
+.note:nth-child(5){left:70%;animation-duration:11s;}
+.note:nth-child(6){left:85%;animation-duration:8s;}
+
+@keyframes floatNotes{
+0%{transform:translateY(100vh) rotate(0deg);opacity:0;}
+20%{opacity:.3;}
+80%{opacity:.3;}
+100%{transform:translateY(-10vh) rotate(360deg);opacity:0;}
+}
+
+/* BOOST MODE */
+
+body.boost .laser{animation-duration:1.5s;}
+body.boost .note{animation-duration:2s !important;}
+body.boost{animation-duration:4s;}
+
+/* FLASH */
+
+.flash{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+opacity:0;
+pointer-events:none;
+}
+
+.flash.active{
+animation:flashReveal .5s ease;
+}
+
+@keyframes flashReveal{
+0%{opacity:0;}
+40%{opacity:.9;}
+100%{opacity:0;}
+}
+
+/* QUESTION NUMBER */
+
+#qNumberBox{
+position:absolute;
+top:20px;
+right:25px;
+font-size:28px;
+font-weight:bold;
+background:rgba(0,0,0,0.5);
+padding:10px 20px;
+border-radius:10px;
+box-shadow:0 0 15px #00eaff;
+}
+
+/* TITLE */
+
+h1{
+font-size:70px;
+margin-top:25px;
+color:#ff2e88;
+text-shadow:0 0 25px #ff2e88;
+}
+
+h2{
+color:#ccc;
+}
+
+/* TIMER */
+
+.timerContainer{
+position:relative;
+width:220px;
+height:220px;
+margin:20px auto;
+}
+
+.waveRing{
+position:absolute;
+width:220px;
+height:220px;
+border-radius:50%;
+border:6px solid transparent;
+border-top:6px solid #00eaff;
+border-right:6px solid #ff2e88;
+border-bottom:6px solid #00ff9d;
+animation:spinWave 4s linear infinite;
+}
+
+@keyframes spinWave{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+.timerCircle{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:160px;
+height:160px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:70px;
+color:#00eaff;
+border:5px solid #00eaff;
+box-shadow:0 0 25px #00eaff;
+}
+
+/* BUTTONS */
+
+button{
+padding:15px 30px;
+margin:6px;
+font-size:20px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+}
+
+.reverse{background:#ff2e88;color:white;}
+.pause{background:#ffaa00;}
+.original{background:#00eaff;}
+.next{background:#00ff9d;}
+.prev{background:#ff4444;color:white;}
+
+button:hover{
+transform:scale(1.08);
+}
+
+/* MASSIVE SONG REVEAL */
+
+#songBox{
+margin-top:10px;
+font-size:70px;
+color:#00ff9d;
+text-shadow:0 0 20px #00ff9d;
+opacity:0;
+}
+
+.show{
+animation:massReveal 1s ease forwards, glowPulse 1s infinite alternate;
+}
+
+@keyframes massReveal{
+
+0%{
+transform:scale(.1) rotate(-15deg);
+opacity:0;
+}
+
+40%{
+transform:scale(1.8) rotate(5deg);
+}
+
+70%{
+transform:scale(.9);
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+@keyframes glowPulse{
+0%{text-shadow:0 0 20px #00ff9d;}
+100%{text-shadow:0 0 60px #00ff9d;}
+}
+
+/* DJ BARS */
+
+.djBars{
+display:flex;
+justify-content:center;
+align-items:flex-end;
+height:80px;
+gap:8px;
+margin-top:10px;
+opacity:0;
+}
+
+.djBars div{
+width:10px;
+background:#00ff9d;
+animation:beat .8s infinite ease-in-out;
+}
+
+@keyframes beat{
+0%{height:15px;}
+50%{height:70px;}
+100%{height:15px;}
+}
+
+.showBars{opacity:1;}
+
+</style>
+</head>
+
+<body>
+
+<div class="djLights">
+<div class="laser"></div>
+<div class="laser"></div>
+<div class="laser"></div>
+<div class="laser"></div>
+<div class="laser"></div>
+</div>
+
+<div class="musicNotes">
+<div class="note">♪</div>
+<div class="note">♫</div>
+<div class="note">♬</div>
+<div class="note">♩</div>
+<div class="note">♫</div>
+<div class="note">♪</div>
+</div>
+
+<div id="flash" class="flash"></div>
+
+<div id="qNumberBox">Question 1 / 25</div>
+
+<h1>LYRIX ARENA</h1>
+<h2>Reverse Audio Challenge</h2>
+
+<div class="timerContainer">
+<div class="waveRing"></div>
+<div class="timerCircle">
+<span id="timer">30</span>
+</div>
+</div>
+
+<button class="reverse" onclick="playReverse()">PLAY REVERSE</button>
+<button class="pause" onclick="pauseReverse()">PAUSE</button>
+
+<br>
+
+<button class="original" onclick="revealSong()">REVEAL SONG</button>
+<button class="pause" onclick="pauseOriginal()">PAUSE</button>
+
+<br>
+
+<button class="prev" onclick="previousQuestion()">⏮ PREVIOUS</button>
+<button class="next" onclick="nextQuestion()">⏭ NEXT</button>
+
+<div id="songBox"></div>
+
+<div id="bars" class="djBars">
+<div></div><div></div><div></div><div></div><div></div>
+</div>
+
+<audio id="reverse"></audio>
+<audio id="original"></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+
+let songs=[
+"Aaluma Doluma",
+"Arabic Kuthu",
+"Vaathi Coming",
+"Rowdy Baby",
+"Why This Kolaveri"
+];
+
+let question=1;
+let totalQuestions=25;
+let timer=30;
+let interval;
+
+function stopAllAudio(){
+let reverse=document.getElementById("reverse");
+let original=document.getElementById("original");
+reverse.pause();
+original.pause();
+reverse.currentTime=0;
+original.currentTime=0;
+}
+
+function playReverse(){
+stopAllAudio();
+let reverse=document.getElementById("reverse");
+reverse.src="Q"+question+"_reverse.mp3";
+reverse.play();
+startTimer();
+}
+
+function pauseReverse(){
+document.getElementById("reverse").pause();
+}
+
+function pauseOriginal(){
+document.getElementById("original").pause();
+}
+
+function revealSong(){
+
+clearInterval(interval);
+stopAllAudio();
+
+document.body.classList.add("boost");
+
+setTimeout(()=>{
+document.body.classList.remove("boost");
+},4000);
+
+let original=document.getElementById("original");
+original.src="Q"+question+"_original.mp3";
+original.play();
+
+let flash=document.getElementById("flash");
+flash.classList.add("active");
+
+setTimeout(()=>{
+flash.classList.remove("active");
+},500);
+
+let box=document.getElementById("songBox");
+
+box.innerText="🎵 "+songs[question-1];
+
+box.classList.remove("show");
+void box.offsetWidth;
+box.classList.add("show");
+
+document.getElementById("bars").classList.add("showBars");
+
+for(let i=0;i<4;i++){
+setTimeout(()=>{
+confetti({
+particleCount:250,
+spread:200,
+startVelocity:70,
+origin:{y:0.6}
+});
+},i*200)
+}
+
+}
+
+function startTimer(){
+clearInterval(interval);
+timer=30;
+document.getElementById("timer").innerText=timer;
+
+interval=setInterval(function(){
+timer--;
+document.getElementById("timer").innerText=timer;
+if(timer<=0)clearInterval(interval);
+},1000);
+}
+
+function nextQuestion(){
+stopAllAudio();
+if(question<totalQuestions){question++;}
+updateScreen();
+}
+
+function previousQuestion(){
+stopAllAudio();
+if(question>1){question--;}
+updateScreen();
+}
+
+function updateScreen(){
+document.getElementById("qNumberBox").innerText="Question "+question+" / 25";
+document.getElementById("songBox").innerText="";
+document.getElementById("bars").classList.remove("showBars");
+timer=30;
+document.getElementById("timer").innerText=timer;
+clearInterval(interval);
+}
+
+</script>
+
+</body>
+</html>
